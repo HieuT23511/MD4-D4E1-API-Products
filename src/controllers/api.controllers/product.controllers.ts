@@ -1,4 +1,3 @@
-
 import {ProductRepo} from "../../../index";
 
 export class ProductControllers {
@@ -49,6 +48,7 @@ export class ProductControllers {
             })
         }
     }
+
     static async deleteProduct(req: any, res: any) {
         try {
             let productSearch = await ProductRepo.findOneBy({id: +req.params.id});
@@ -65,6 +65,29 @@ export class ProductControllers {
             res.status(500).json({
                 message: err.message
             })
+        }
+    }
+
+    static async listProduct(req: any, res: any) {
+        try {
+            const products = await ProductRepo.find();
+            if (products) {
+                res.status(200).json({message: "Display Success", products: products})
+            }
+        } catch (err) {
+            res.status(500).json({message: err.mesage})
+        }
+    }
+
+    static async detailProduct(req: any, res: any) {
+        try {
+            let productId = +req.params.id
+            const product = await ProductRepo.findOneBy({id: productId})
+            if(product){
+                res.status(200).json({message:"Detail Success",product})
+            }
+        } catch (err) {
+            res.status(500).json({message: err.mesage})
         }
     }
 }

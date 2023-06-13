@@ -71,6 +71,29 @@ class ProductControllers {
             });
         }
     }
+    static async listProduct(req, res) {
+        try {
+            const products = await index_1.ProductRepo.find();
+            if (products) {
+                res.status(200).json({ message: "Display Success", products: products });
+            }
+        }
+        catch (err) {
+            res.status(500).json({ message: err.mesage });
+        }
+    }
+    static async detailProduct(req, res) {
+        try {
+            let productId = +req.params.id;
+            const product = await index_1.ProductRepo.findOneBy({ id: productId });
+            if (product) {
+                res.status(200).json({ message: "Detail Success", product });
+            }
+        }
+        catch (err) {
+            res.status(500).json({ message: err.mesage });
+        }
+    }
 }
 exports.ProductControllers = ProductControllers;
 //# sourceMappingURL=product.controllers.js.map
